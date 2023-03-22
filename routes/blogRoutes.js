@@ -2,20 +2,35 @@ const Blog = require("../models/blog");
 const express = require("express");
 const router = express.Router();
 const Session = require("../models/sessions");
+const jwtsecret = process.env.JWT_SECRET;
+const jwt = require("jsonwebtoken");
+
 router.use(async (req, res, next) => {
-  const token = req.body.token || req.headers.token;
+  const token = req.headers["authorization"];
   if (token) {
-    const currentSession = await Session.findOne({ accesToken: token })
-      .populate("user")
-      .exec();
-    req.user = currentSession.user;
-    next();
+    jwt.verify(token, jwtsecret, function (err, decoded) {
+      if (err) {
+        res.status(401).send({
+          message: err,
+        });
+        return;
+      }
+      if (decoded.exp < Date.now() / 1000) {
+        res.status(401).send({
+          message: "expired time",
+        });
+      } else {
+        req.user = decoded.data;
+        next();
+      }
+    });
   } else {
     res.status(401).send({
-      message: "Unauthorized request!",
+      message: "Unauthorized request",
     });
   }
 });
+
 router.get("/blogs", async (req, res) => {
   const blogs = await Blog.find().populate("author").exec();
   res.status(200).send(blogs);

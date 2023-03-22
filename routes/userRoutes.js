@@ -1,6 +1,7 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const Session = require("../models/sessions");
+const PasswordReset = require("../models/passwordReset");
 const router = express.Router();
 const multer = require("multer");
 const crypto = require("crypto");
@@ -38,23 +39,56 @@ router.post("/login", async (req, res) => {
   const hashedPassword = crypto
     .pbkdf2Sync(password, SALT, 100000, 64, "sha512")
     .toString("hex");
-
   const user = await User.findOne({ email, password: hashedPassword });
-  const accesToken = crypto.randomBytes(32).toString("base64");
-  const session = new Session({
-    user: user._id,
-    accesToken,
-    expiresDate: Date.now() + 1000 * 60 * 60 * 24,
-  });
-  await session.save();
   if (user) {
+    const { password: _, ...rest } = user.toObject();
+    const accesToken = jwt.sign(
+      {
+        data: rest,
+        exp: Date.now() / 1000 + 60 * 60,
+      },
+      process.env.JWT_SECRET
+    );
     res.send(accesToken);
   } else {
     res.status(401).send({
       message: "User is not found",
     });
   }
-  console.log(user);
   res.send();
+});
+router.post("/password/reset-request", async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  const passwordReset = new PasswordReset({
+    user: user._id,
+    resetToken: crypto.randomBytes(32).toString("base64url"),
+  });
+  await passwordReset.save();
+  res.send({
+    message: "Email has been sent to you to reset your password!",
+  });
+});
+router.patch("/password", async (req, res) => {
+  const { newPassword, resetToken } = req.body;
+  const hashedPassword = crypto
+    .pbkdf2Sync(newPassword, SALT, 100000, 64, "sha512")
+    .toString("hex");
+  const resetPassword = await PasswordReset.findOne({
+    resetToken,
+    expired: false,
+  });
+  if (resetPassword) {
+    const userId = resetPassword.user;
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+    await PasswordReset.findByIdAndUpdate(resetPassword._id, { expired: true });
+    res.send({
+      message: "password has been reset",
+    });
+  } else {
+    res.send({
+      message: "password reset request doest not exist",
+    });
+  }
 });
 module.exports = router;
