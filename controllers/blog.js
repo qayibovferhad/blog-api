@@ -1,6 +1,5 @@
 const Blog = require("../models/blog");
 const express = require("express");
-const router = express.Router();
 const jwtsecret = process.env.JWT_SECRET;
 const jwt = require("jsonwebtoken");
 
