@@ -1,9 +1,6 @@
-const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const PasswordReset = require("../models/passwordReset");
-const router = express.Router();
-const multer = require("multer");
 const crypto = require("crypto");
 const SALT = process.env.PASSWORD_SALT;
 

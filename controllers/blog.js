@@ -1,7 +1,4 @@
 const Blog = require("../models/blog");
-const express = require("express");
-const jwtsecret = process.env.JWT_SECRET;
-const jwt = require("jsonwebtoken");
 
 const getBlogs = async (req, res) => {
   const blogs = await Blog.find().populate("author").exec();
