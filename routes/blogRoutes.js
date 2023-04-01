@@ -1,10 +1,8 @@
-const Blog = require("../models/blog");
 const express = require("express");
 const blogRouter = express.Router();
-const jwtsecret = process.env.JWT_SECRET;
-const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth");
 const blogController = require("../controllers/blog");
+const auth = require("../middleware/auth");
+
 blogRouter.use(auth);
 blogRouter.get("/blogs", blogController.getBlogs);
 blogRouter.get("/blogs/:id", blogController.getBlogSingle);
