@@ -2,9 +2,10 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const PasswordReset = require("../models/passwordReset");
 const crypto = require("crypto");
+const catchError = require("../utils/catchError");
 const SALT = process.env.PASSWORD_SALT;
 
-const registerUser = async (req, res) => {
+const registerUser = catchError(async (req, res) => {
   const { path } = req.file;
   const { firstname, lastname, username, email, password } = req.body;
   const user = new User({
@@ -17,14 +18,16 @@ const registerUser = async (req, res) => {
   });
   await user.save();
   res.status(201).send("Ok!");
-};
+});
 
-const loginUser = async (req, res) => {
+const loginUser = catchError(async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = crypto
     .pbkdf2Sync(password, SALT, 100000, 64, "sha512")
     .toString("hex");
-  const user = await User.findOne({ email, password: hashedPassword });
+  const user = await User.findOne({ email, password: hashedPassword })
+    .select("_id, firstname,lastname,username,email,password,image")
+    .exec();
   if (user) {
     const { password: _, ...rest } = user.toObject();
     const accesToken = jwt.sign(
@@ -41,7 +44,7 @@ const loginUser = async (req, res) => {
     });
   }
   res.send();
-};
+});
 const resetRequest = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });

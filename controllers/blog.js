@@ -3,7 +3,7 @@ const catchError = require("../utils/catchError");
 
 const getBlogs = catchError(async (req, res) => {
   const blogs = await Blog.find()
-    .populate("author", "_id, firstname,lastname,username,email,password,image")
+    .populate("author", "_id, firstname,lastname,username,email,image")
     .exec();
   res.status(200).send(blogs);
 });
