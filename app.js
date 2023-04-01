@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 const path = require("path");
+const errorMiddleware = require("./middleware/errorMiddleware");
 const app = express();
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
@@ -24,4 +25,5 @@ app.all("*", (req, res) => {
     message: "Requested URL not found..",
   });
 });
+app.use(errorMiddleware);
 module.exports = app;

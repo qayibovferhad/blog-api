@@ -1,6 +1,6 @@
 const jwtsecret = process.env.JWT_SECRET;
 const jwt = require("jsonwebtoken");
-const auth = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const token = req.headers["authorization"];
   if (!token) {
     res.status(401).send({
@@ -31,4 +31,4 @@ const auth = async (req, res, next) => {
     });
   }
 };
-module.exports = auth;
+module.exports = authMiddleware;

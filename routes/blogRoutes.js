@@ -1,9 +1,9 @@
 const express = require("express");
 const blogRouter = express.Router();
 const blogController = require("../controllers/blog");
-const auth = require("../middleware/auth");
+const authMiddleware = require("../middleware/auth");
 
-blogRouter.use(auth);
+blogRouter.use(authMiddleware);
 blogRouter.get("/blogs", blogController.getBlogs);
 blogRouter.get("/blogs/:id", blogController.getBlogSingle);
 blogRouter.post("/blogs", blogController.newBlog);
