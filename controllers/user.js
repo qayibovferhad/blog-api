@@ -26,18 +26,13 @@ const loginUser = catchError(async (req, res) => {
     .pbkdf2Sync(password, SALT, 100000, 64, "sha512")
     .toString("hex");
   const user = await User.findOne({ email, password: hashedPassword })
-    .select("_id, firstname,lastname,username,email,password,image")
+    .select("_id, firstname,lastname,username,email,image")
     .exec();
   if (user) {
-    const { password: _, ...rest } = user.toObject();
-    const accesToken = jwt.sign(
-      {
-        data: rest,
-        exp: Date.now() / 1000 + 60 * 60,
-      },
-      process.env.JWT_SECRET
-    );
-    res.send(accesToken);
+    const accesToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
+      expiresIn: "12h",
+    });
+    res.send({ accesToken });
   } else {
     res.status(401).send({
       message: "User is not found",

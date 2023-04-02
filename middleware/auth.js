@@ -16,12 +16,13 @@ const authMiddleware = async (req, res, next) => {
         });
         return;
       }
-      if (decoded.exp < Date.now() / 1000) {
+      const { exp, iat, ...userData } = decoded;
+      if (exp < Date.now() / 1000) {
         res.status(401).send({
           message: "Your session is expired!",
         });
       } else {
-        req.user = decoded.data;
+        req.user = userData;
         next();
       }
     });
