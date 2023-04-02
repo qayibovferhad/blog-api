@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const PasswordReset = require("../models/passwordReset");
+const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const catchError = require("../utils/catchError");
 const SALT = process.env.PASSWORD_SALT;
@@ -43,11 +44,38 @@ const loginUser = catchError(async (req, res) => {
 const resetRequest = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400).send({
+      message: "User not found",
+    });
+    return;
+  }
+  const resetToken = crypto.randomBytes(32).toString("base64url");
   const passwordReset = new PasswordReset({
     user: user._id,
-    resetToken: crypto.randomBytes(32).toString("base64url"),
+    resetToken,
   });
+
   await passwordReset.save();
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  const linkToPasswordResetPage =
+    "http://localhost:1905/reset-password/" + resetToken;
+
+  await transporter.sendMail({
+    from: "BLOGS API <noreply@blogs.info>",
+    to: email,
+    subject: "Password Reset",
+    text: `Reset link ${linkToPasswordResetPage}`,
+    html: `<h1>Password reset</h1>
+    <p>Reset link: <a href=${linkToPasswordResetPage}>Reset Link</a></p>`,
+  });
   res.send({
     message: "Email has been sent to you to reset your password!",
   });
