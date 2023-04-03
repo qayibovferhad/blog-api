@@ -21,13 +21,10 @@ const limiter = rateLimit({
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true }));
-app.get("/hello", (req, res) => {
-  res.send("OK!");
-});
 app.use(cors());
-app.use(xss());
 app.use(mongoSanitize());
 app.use(helmet());
+app.use(xss());
 app.use("/public", express.static(path.resolve("public")));
 app.use(limiter);
 app.use("/api/v1", userRoutes);
