@@ -1,16 +1,16 @@
 const express = require("express");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
-const cors = require("cors");
 const xss = require("xss-clean");
+const helmet = require("helmet");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
-const path = require("path");
 const errorMiddleware = require("./middleware/errorMiddleware");
 const app = express();
+const path = require("path");
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
 mongoose.connect(CONNECTION_STRING);
