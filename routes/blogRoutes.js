@@ -1,7 +1,7 @@
-const express = require("express");
 const blogRouter = express.Router();
-const blogController = require("../controllers/blog");
+const express = require("express");
 const authMiddleware = require("../middleware/auth");
+const blogController = require("../controllers/blog");
 
 blogRouter.use(authMiddleware);
 blogRouter.get("/blogs", blogController.getBlogs);
