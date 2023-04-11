@@ -1,5 +1,6 @@
-const express = require("express");
 require("dotenv").config();
+const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -10,7 +11,6 @@ const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 const errorMiddleware = require("./middleware/errorMiddleware");
 const path = require("path");
-const app = express();
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
 mongoose.connect(CONNECTION_STRING);

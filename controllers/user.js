@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const PasswordReset = require("../models/passwordReset");
-const nodemailer = require("nodemailer");
-const catchError = require("../utils/catchError");
 const User = require("../models/user");
+const catchError = require("../utils/catchError");
+const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const SALT = process.env.PASSWORD_SALT;
 
