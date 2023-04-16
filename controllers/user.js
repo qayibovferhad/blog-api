@@ -13,7 +13,7 @@ const checkEmail = async (req, res, next) => {
       message: "User with this email already exists!",
     });
   } else {
-    nexT();
+    next();
   }
 };
 

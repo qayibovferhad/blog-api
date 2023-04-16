@@ -32,4 +32,5 @@ app.use("/api/v1", userRoutes);
 app.use("/api/v1", blogRoutes);
 app.all("*", notFound);
 app.use(errorMiddleware);
+
 module.exports = app;
