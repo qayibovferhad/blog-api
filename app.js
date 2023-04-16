@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const xss = require("xss-clean");
+const notFound = require("./middleware/notFound");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 const errorMiddleware = require("./middleware/errorMiddleware");
@@ -29,10 +30,6 @@ app.use("/public", express.static(path.resolve("public")));
 app.use(limiter);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", blogRoutes);
-app.all("*", (req, res) => {
-  res.status(404).send({
-    message: "Requested URL not found..",
-  });
-});
+app.all("*", notFound);
 app.use(errorMiddleware);
 module.exports = app;
