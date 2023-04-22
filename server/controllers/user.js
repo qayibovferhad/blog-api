@@ -41,13 +41,13 @@ const loginUser = catchError(async (req, res) => {
     .select("_id, firstname,lastname,username,email,image")
     .exec();
   if (user) {
-    const accesToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
+    const accessToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
       expiresIn: "12h",
     });
-    res.send({ accesToken });
+    res.send({ accessToken });
   } else {
     res.status(401).send({
-      message: "User is not found",
+      message: "Username or password is not correct",
     });
   }
   res.send();
