@@ -7,12 +7,7 @@ const userController = require("../controllers/user");
 const upload = require("../middleware/fileUpload");
 const SALT = process.env.PASSWORD_SALT;
 const imageUpload = upload.single("image");
-userRouter.post(
-  "/register",
-  userController.checkEmail,
-  imageUpload,
-  userController.registerUser
-);
+userRouter.post("/register", imageUpload, userController.registerUser);
 userRouter.post("/login", userController.loginUser);
 userRouter.post("/password/reset-request", userController.resetRequest);
 userRouter.patch("/password", userController.patchPassword);
