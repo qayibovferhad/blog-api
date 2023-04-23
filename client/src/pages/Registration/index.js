@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RegistrationForm from "./RegistrationForm";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import { Typography } from "antd";
 function Registartion() {
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      return "Are you sure?";
+    };
+  });
   return (
     <div className="login-container">
       <div className="login-form-container">

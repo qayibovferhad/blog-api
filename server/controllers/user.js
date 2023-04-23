@@ -6,17 +6,6 @@ const crypto = require("crypto");
 const catchError = require("../utils/catchError");
 const SALT = process.env.PASSWORD_SALT;
 
-const checkEmail = async (req, res, next) => {
-  const email = await User.find({ email: req.body.email });
-  if (email) {
-    res.status(400).send({
-      message: "User with this email already exists!",
-    });
-  } else {
-    next();
-  }
-};
-
 const registerUser = catchError(async (req, res) => {
   const { path } = req.file;
   const { firstname, lastname, username, email, password } = req.body;
@@ -118,5 +107,4 @@ module.exports = {
   loginUser,
   patchPassword,
   resetRequest,
-  checkEmail,
 };
