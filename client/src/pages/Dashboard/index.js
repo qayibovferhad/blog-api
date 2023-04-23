@@ -1,4 +1,5 @@
 import ProtectedRoute from "../../components/ProtectedRoute";
+
 function Dashboard() {
   return (
     <ProtectedRoute>

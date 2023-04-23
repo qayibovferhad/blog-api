@@ -8,8 +8,7 @@ function LoginForm() {
   async function onFinish(values) {
     try {
       setSubmitting(true);
-      const { data } = await axios.post("login", values);
-      localStorage.setItem("access_token", data.accessToken);
+      await axios.post("login", values);
       navigate("/");
     } catch (err) {
       const errorMessage = err.response.data.message;

@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const xss = require("xss-clean");
+const cookieParser = require("cookie-parser");
 const notFound = require("./middleware/notFound");
 const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -22,8 +23,14 @@ const limiter = rateLimit({
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(mongoSanitize());
+app.use(cookieParser());
 app.use(helmet());
 app.use(xss());
 app.use("/public", express.static(path.resolve("public")));

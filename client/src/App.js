@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Button } from "antd";
 import Login from "./pages/Login/";
 import Registration from "./pages/Registration";
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route index element={<Button type="primary">Button</Button>} />
+        <Route path="/" element={<h1>Hello nese</h1>} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/auth/registration" element={<Registration />} />
         <Route path="/auth/login" element={<Login />} />
