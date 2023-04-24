@@ -1,9 +1,12 @@
+import AppLayout from "../../components/AppLayout";
 import ProtectedRoute from "../../components/ProtectedRoute";
 
 function Dashboard() {
   return (
     <ProtectedRoute>
-      <h1>Hello</h1>
+      <AppLayout>
+        <h1>Hello</h1>
+      </AppLayout>
     </ProtectedRoute>
   );
 }

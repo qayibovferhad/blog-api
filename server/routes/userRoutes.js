@@ -12,6 +12,5 @@ userRouter.post("/register", imageUpload, userController.registerUser);
 userRouter.post("/login", userController.loginUser);
 userRouter.post("/password/reset-request", userController.resetRequest);
 userRouter.patch("/password", userController.patchPassword);
-userRouter.use(authMiddleware);
-userRouter.get("/me", userController.getUserInfo);
+userRouter.get("/me", authMiddleware, userController.getUserInfo);
 module.exports = userRouter;

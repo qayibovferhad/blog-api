@@ -1,5 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
-import { Button } from "antd";
+import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login/";
 import Registration from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
