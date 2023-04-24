@@ -4,6 +4,7 @@ const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const catchError = require("../utils/catchError");
+const { path } = require("../app");
 const SALT = process.env.PASSWORD_SALT;
 
 const registerUser = catchError(async (req, res) => {
@@ -20,6 +21,10 @@ const registerUser = catchError(async (req, res) => {
   await user.save();
   res.status(201).send("Ok!");
 });
+const logout = (req, res) => {
+  res.clearCookie("app_access_token", { path: "/" });
+  res.status(200).send();
+};
 const getUserInfo = (req, res) => {
   res.status(200).send(req.user);
 };
@@ -115,4 +120,5 @@ module.exports = {
   patchPassword,
   resetRequest,
   getUserInfo,
+  logout,
 };

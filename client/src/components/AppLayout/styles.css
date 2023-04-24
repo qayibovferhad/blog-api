@@ -3,6 +3,16 @@
   padding: 24px;
   background: #fff;
 }
+.app-layout .user-info .ant-space-item {
+  color: #fff;
+}
+.app-layout .app-header {
+  display: flex;
+  justify-content: space-between;
+}
+.app-layout .app-navigation {
+  margin-right: auto;
+}
 .app-layout .logo {
   float: left;
   width: 120px;

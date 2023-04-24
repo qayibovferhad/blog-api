@@ -13,4 +13,5 @@ userRouter.post("/login", userController.loginUser);
 userRouter.post("/password/reset-request", userController.resetRequest);
 userRouter.patch("/password", userController.patchPassword);
 userRouter.get("/me", authMiddleware, userController.getUserInfo);
+userRouter.post("/logout", authMiddleware, userController.logout);
 module.exports = userRouter;

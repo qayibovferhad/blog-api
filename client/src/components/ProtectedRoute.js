@@ -11,7 +11,6 @@ function ProtectedRoute({ children }) {
     async function getUserInfo() {
       try {
         const { data } = await axios.get("me");
-        console.log(data);
         if (!data) {
           navigate("/auth/login");
         } else {
@@ -26,7 +25,7 @@ function ProtectedRoute({ children }) {
     if (!currentUser) {
       getUserInfo();
     }
-  }, []);
+  });
   if (loading) {
     <h1>Authorizing..</h1>;
   }

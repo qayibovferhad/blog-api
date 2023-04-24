@@ -31,7 +31,11 @@ app.use(
 );
 app.use(mongoSanitize());
 app.use(cookieParser());
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(xss());
 app.use("/public", express.static(path.resolve("public")));
 app.use(limiter);
