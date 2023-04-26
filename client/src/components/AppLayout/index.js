@@ -1,10 +1,10 @@
 import { Avatar, Breadcrumb, Layout, Menu } from "antd";
 import "./styles.css";
 import AppHeader from "./Header";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 
-function AppLayout({ children }) {
+function AppLayout() {
   return (
     <Layout className="app-layout">
       <AppHeader />
@@ -14,7 +14,9 @@ function AppLayout({ children }) {
           <Breadcrumb.Item>List</Breadcrumb.Item>
           <Breadcrumb.Item>App</Breadcrumb.Item>
         </Breadcrumb>
-        <main className="site-layout-content">{children}</main>
+        <main className="site-layout-content">
+          <Outlet />
+        </main>
       </Content>
       <Footer
         style={{

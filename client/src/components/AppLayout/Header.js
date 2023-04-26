@@ -8,18 +8,15 @@ const { Header } = Layout;
 const menuItems = [
   {
     key: 1,
-    label: "Dashboard",
-    href: "/dashboard",
+    label: <NavLink to="/dashboard">Dashboard</NavLink>,
   },
   {
     key: 2,
-    label: "Blogs",
-    href: "/blogs",
+    label: <NavLink to="/blogs">Blogs</NavLink>,
   },
   {
     key: 3,
-    label: "Chat",
-    href: "/chat",
+    label: <NavLink to="/chat">Chat</NavLink>,
   },
 ];
 const dropDownItems = [
@@ -39,7 +36,7 @@ const dropDownItems = [
 
 function AppHeader() {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user.currentUser || {});
   console.log(user);
   async function handleDropdownClick(e) {
     if (e.key === "logout") {
@@ -50,13 +47,12 @@ function AppHeader() {
   return (
     <Header className="app-header">
       <div className="logo" />
-      <Menu className="app-navigation" theme="dark" mode="horizontal">
-        {menuItems.map((menuItem) => (
-          <NavLink key={menuItem.key} to={menuItem.href}>
-            <Menu.Item>{menuItem.label}</Menu.Item>
-          </NavLink>
-        ))}
-      </Menu>
+      <Menu
+        className="app-navigation"
+        theme="dark"
+        mode="horizontal"
+        items={menuItems}
+      />
       <div className="user-info">
         {user && (
           <Dropdown

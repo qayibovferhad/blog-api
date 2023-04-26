@@ -1,13 +1,8 @@
-import AppLayout from "../../components/AppLayout";
-import ProtectedRoute from "../../components/ProtectedRoute";
+import React, { Suspense } from "react";
 
-function Dashboard() {
-  return (
-    <ProtectedRoute>
-      <AppLayout>
-        <h1>Hello</h1>
-      </AppLayout>
-    </ProtectedRoute>
-  );
-}
-export default Dashboard;
+const LazyDashboardPage = React.lazy(() => import("./Dashboard"));
+export default () => (
+  <Suspense fallback={<h1>Loading component..</h1>}>
+    <LazyDashboardPage />
+  </Suspense>
+);
