@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const SALT = process.env.PASSWORD_SALT;
-const UserSchema = mongoose.Schema({
-  firstname: String,
-  lastname: String,
-  username: String,
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+const UserSchema = mongoose.Schema(
+  {
+    firstname: String,
+    lastname: String,
+    username: String,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: String,
+    image: String,
   },
-  password: String,
-  image: String,
-});
+  { timestamps: true }
+);
 
 UserSchema.pre("save", function (next) {
   this.password = crypto

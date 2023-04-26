@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import { Suspense } from "react";
 import AppLayout from "./components/AppLayout";
+import Blogs from "./pages/Blogs";
 function App() {
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             <Route path="chat" element={<Chat />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="blogs" element={<Blogs />} />
           </Route>
         </Routes>
       </Suspense>

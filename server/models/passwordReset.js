@@ -1,17 +1,19 @@
 const mongoose = require("mongoose");
 
-const PasswordResetsSchema = mongoose.Schema({
-  user: {
-    type: "ObjectId",
-    ref: "users",
+const PasswordResetsSchema = mongoose.Schema(
+  {
+    user: {
+      type: "ObjectId",
+      ref: "users",
+    },
+    resetToken: String,
+    expired: {
+      type: Boolean,
+      default: () => false,
+    },
   },
-  resetToken: String,
-  expired: {
-    type: Boolean,
-    default: () => false,
-  },
-  created_date: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
 const PasswordResetsModel = mongoose.model(
   "passwordresets",
