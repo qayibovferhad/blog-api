@@ -11,7 +11,7 @@ function App() {
     <>
       <Suspense fallback={<h1>Loading Component..</h1>}>
         <Routes>
-          <Route path="/" element={<h1>Hello nese</h1>} />
+          <Route index element={<h1>Hello</h1>} />
           <Route path="/auth/registration" element={<Registration />} />
           <Route path="/auth/login" element={<Login />} />
 
@@ -19,6 +19,7 @@ function App() {
             <Route path="chat" element={<Chat />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="blogs" element={<Blogs />} />
+            <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
         </Routes>
       </Suspense>
