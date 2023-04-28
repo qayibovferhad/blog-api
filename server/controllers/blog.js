@@ -3,14 +3,15 @@ const catchError = require("../utils/catchError");
 
 const getBlogs = catchError(async (req, res) => {
   const blogs = await Blog.find()
-    .select("_id title body likes")
+    .select("_id title body tags likes")
     .populate("author", "_id firstname lastname image")
     .exec();
   res.status(200).send(blogs);
 });
 const getBlogSingle = catchError(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id)
-    .populate("author", "_id firstname lastname username email password image")
+    .select("_id title body likes")
+    .populate("author", "_id firstname lastname username email image")
     .exec();
   res.status(200).send(blog);
 });

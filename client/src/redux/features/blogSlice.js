@@ -15,7 +15,7 @@ const blogsSlice = createSlice({
   extraReducers: {
     [fetchBlogs.pending]: () => {},
     [fetchBlogs.fulfilled]: (state, action) => {
-      state.list = action.list;
+      state.list = action.payload;
       state.loading = false;
       state.error = null;
     },

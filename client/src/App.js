@@ -6,6 +6,7 @@ import Chat from "./pages/Chat";
 import { Suspense } from "react";
 import AppLayout from "./components/AppLayout";
 import Blogs from "./pages/Blogs";
+import BlogCreate from "./pages/BlogCreate";
 function App() {
   return (
     <>
@@ -19,6 +20,7 @@ function App() {
             <Route path="chat" element={<Chat />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="blogs" element={<Blogs />} />
+            <Route path="blogs/create" element={<BlogCreate />} />
             <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
         </Routes>

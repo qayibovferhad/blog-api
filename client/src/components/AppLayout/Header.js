@@ -37,13 +37,13 @@ const dropDownItems = [
 function AppHeader() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser || {});
-  console.log(user);
   async function handleDropdownClick(e) {
     if (e.key === "logout") {
       await axios.post("logout");
       navigate("/auth/login");
     }
   }
+
   return (
     <Header className="app-header">
       <div className="logo" />

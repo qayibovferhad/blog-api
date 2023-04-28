@@ -2,12 +2,16 @@ const mongoose = require("mongoose");
 const BlogSchema = new mongoose.Schema(
   {
     title: String,
+    body: String,
+    likes: Number,
     author: {
       type: "ObjectId",
       ref: "users",
     },
-    body: String,
-    likes: Number,
+    tags: {
+      type: [String],
+      default: () => [],
+    },
   },
   { timestamps: true }
 );

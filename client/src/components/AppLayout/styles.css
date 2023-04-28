@@ -1,5 +1,5 @@
-.app-layout {
-  min-height: 280px;
+.app-layout .site-layout-content {
+  min-height: 75vh;
   padding: 24px;
   background: #fff;
 }

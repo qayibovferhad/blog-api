@@ -1,18 +1,22 @@
-import { Avatar, Breadcrumb, Layout, Menu } from "antd";
+import { Breadcrumb, Layout } from "antd";
 import "./styles.css";
 import AppHeader from "./Header";
-import { NavLink, Outlet } from "react-router-dom";
-const { Header, Content, Footer } = Layout;
+import { Outlet, useLocation } from "react-router-dom";
+import breadcrumb from "../../utils/breadcrumb";
+const { Content, Footer } = Layout;
 
 function AppLayout() {
+  const location = useLocation();
+  const breadCrumb = breadcrumb[location.pathname];
+
   return (
     <Layout className="app-layout">
       <AppHeader />
       <Content className="app-content">
         <Breadcrumb className="app-breadcrumb">
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
+          {breadCrumb.map((item, index) => (
+            <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
+          ))}
         </Breadcrumb>
         <main className="site-layout-content">
           <Outlet />
