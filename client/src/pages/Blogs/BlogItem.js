@@ -3,7 +3,8 @@ import { LikeOutlined, MessageOutlined, LikeTwoTone } from "@ant-design/icons";
 import { Avatar, Button, List, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
 import axios from "../../lib/axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleBlogLike } from "../../redux/features/blogSlice";
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
@@ -12,8 +13,15 @@ const IconText = ({ icon, text }) => (
 );
 
 function BlogItem({ item }) {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
   async function handleLikeClick(blogId) {
+    dispatch(
+      toggleBlogLike({
+        blogId,
+        userId: currentUser._id,
+      })
+    );
     await axios.put(`/blogs/${blogId}/like`);
   }
   const isBlogLiked = item.likes.includes(currentUser._id);
