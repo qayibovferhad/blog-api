@@ -2,3 +2,10 @@
   display: flex;
   justify-content: space-between;
 }
+.blogs-container .ant-list-item-meta-title {
+  margin: 0 !important;
+}
+.blogs-container .ant-list-item-meta {
+  display: flex;
+  align-items: center;
+}

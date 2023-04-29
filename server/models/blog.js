@@ -3,7 +3,7 @@ const BlogSchema = new mongoose.Schema(
   {
     title: String,
     body: String,
-    likes: Number,
+    likes: [{ type: "ObjectId", ref: "users" }],
     author: {
       type: "ObjectId",
       ref: "users",

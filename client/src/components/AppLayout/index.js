@@ -14,7 +14,7 @@ function AppLayout() {
       <AppHeader />
       <Content className="app-content">
         <Breadcrumb className="app-breadcrumb">
-          {breadCrumb.map((item, index) => (
+          {breadCrumb?.map((item, index) => (
             <Breadcrumb.Item key={index}>{item}</Breadcrumb.Item>
           ))}
         </Breadcrumb>
