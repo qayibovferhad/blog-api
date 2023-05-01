@@ -2,9 +2,8 @@ import React from "react";
 import { LikeOutlined, MessageOutlined, LikeTwoTone } from "@ant-design/icons";
 import { Avatar, Button, List, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
-import axios from "../../lib/axios";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleBlogLike } from "../../redux/features/blogSlice";
+import { timeAgo } from "../../lib/timeAgo";
+import { useBlogLike } from "../../hooks/useBlogLike";
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
@@ -13,20 +12,10 @@ const IconText = ({ icon, text }) => (
 );
 
 function BlogItem({ item }) {
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.user.currentUser);
-  async function handleLikeClick(blogId) {
-    dispatch(
-      toggleBlogLike({
-        blogId,
-        userId: currentUser._id,
-      })
-    );
-    await axios.put(`/blogs/${blogId}/like`);
-  }
-  const isBlogLiked = item.likes.includes(currentUser._id);
+  const [isBlogLiked, handleLikeClick] = useBlogLike(item);
   return (
     <List.Item
+      extra={<small>{timeAgo.format(new Date(item.createdAt))}</small>}
       key={item.title}
       actions={[
         <Button
@@ -40,7 +29,7 @@ function BlogItem({ item }) {
         </Button>,
         <IconText
           icon={MessageOutlined}
-          text="2"
+          text={item.comments.length}
           key="list-vertical-message"
         />,
       ]}

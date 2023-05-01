@@ -21,6 +21,7 @@
   "homepage": "https://github.com/qayibovferhad/blog-api#readme",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "javascript-time-ago": "^2.5.9",
     "npm-run-all": "^4.1.5"
   }
 }

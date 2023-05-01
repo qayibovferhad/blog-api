@@ -8,7 +8,7 @@ const getBlogs = catchError(async (req, res) => {
   const blogs = await Blog.find({
     title: { $regex: ".*" + q + ".*", $options: "i" },
   })
-    .select("_id title body tags likes")
+    .select("_id title body tags likes comments createdAt")
     .where("author")
     .equals(userId)
     .populate("author", "_id firstname lastname image")
@@ -29,8 +29,8 @@ const getBlogs = catchError(async (req, res) => {
 });
 const getBlogSingle = catchError(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id)
-    .select("_id title body likes")
-    .populate("author", "_id firstname lastname username email image")
+    .select("_id title body likes createdAt")
+    .populate("author", "_id firstname lastname username email image ")
     .exec();
   res.status(200).send(blog);
 });

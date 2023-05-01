@@ -5,10 +5,6 @@ const CommentSchema = new mongoose.Schema(
       type: "ObjectId",
       ref: "users",
     },
-    blog: {
-      type: "ObjectId",
-      ref: "blogs",
-    },
     body: String,
   },
   { timestamps: true }
