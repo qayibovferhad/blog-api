@@ -1,7 +1,7 @@
 const Blog = require("../models/blog");
 const catchError = require("../utils/catchError");
 
-const getBlogs = catchError(async (req, res) => {
+const getMyBlogs = catchError(async (req, res) => {
   const { limit = 10, page = 1, q = "" } = req.query;
   const offset = (page - 1) * limit;
   const userId = req.user._id;
@@ -27,9 +27,29 @@ const getBlogs = catchError(async (req, res) => {
     total,
   });
 });
+const getBlogs = catchError(async (req, res) => {
+  const { limit = 10, page = 1, q = "" } = req.query;
+  const offset = (page - 1) * limit;
+  const blogs = await Blog.find({
+    title: { $regex: ".*" + q + ".*", $options: "i" },
+  })
+    .select("_id title body tags likes comments createdAt")
+    .populate("author", "_id firstname lastname image")
+    .sort({ createdAt: "desc" })
+    .skip(offset)
+    .limit(limit)
+    .exec();
+  const total = await Blog.find({
+    title: { $regex: ".*" + q + ".*", $options: "i" },
+  }).count();
+  res.status(200).send({
+    list: blogs,
+    total,
+  });
+});
 const getBlogSingle = catchError(async (req, res, next) => {
   const blog = await Blog.findById(req.params.id)
-    .select("_id title body likes createdAt")
+    .select("_id title body likes createdAt tags")
     .populate("author", "_id firstname lastname username email image ")
     .exec();
   res.status(200).send(blog);
@@ -66,6 +86,7 @@ module.exports = {
   getBlogs,
   deleteBlog,
   updateBlog,
+  getMyBlogs,
   likeBlog,
   newBlog,
 };

@@ -1,6 +1,6 @@
 import { Button, List } from "antd";
 import React, { useEffect, useState } from "react";
-import BlogItem from "./BlogItem";
+import BlogItem from "../../components/BlogItem/BlogItem";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import "./styles.css";
 import debounce from "lodash.debounce";

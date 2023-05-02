@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../lib/axios";
 export const fetchBlogs = createAsyncThunk("blogs/fetchBlogs", (params) => {
-  return axios.get("blogs", { params }).then((response) => response.data);
+  return axios.get("blogs/my", { params }).then((response) => response.data);
 });
 const initialState = {
   list: [],

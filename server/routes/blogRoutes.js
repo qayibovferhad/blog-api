@@ -5,6 +5,7 @@ const blogController = require("../controllers/blog");
 
 blogRouter.use(authMiddleware);
 blogRouter.get("/blogs", blogController.getBlogs);
+blogRouter.get("/blogs/my", blogController.getMyBlogs);
 blogRouter.get("/blogs/:id", blogController.getBlogSingle);
 blogRouter.put("/blogs/:id/like", blogController.likeBlog);
 blogRouter.post("/blogs", blogController.newBlog);

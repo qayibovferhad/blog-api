@@ -1,4 +1,4 @@
-import { Button, Descriptions } from "antd";
+import { Button, Descriptions, Tag } from "antd";
 import { LikeOutlined, MessageOutlined, LikeTwoTone } from "@ant-design/icons";
 
 import React, { useEffect, useState } from "react";
@@ -7,9 +7,19 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import axios from "../../lib/axios";
 import { useBlogLike } from "../../hooks/useBlogLike";
+const defaultBlog = {
+  _id: null,
+  title: "Loading...",
+  body: "Loading...",
+  author: {},
+  likes: [],
+  tags: [],
+  comments: [],
+  createdAt: "01-01-1970",
+};
 function BlogDetail() {
   const { blogId } = useParams();
-  const [blog, setBlog] = useState(undefined);
+  const [blog, setBlog] = useState(defaultBlog);
   const [isBlogLiked, handleLikeClick] = useBlogLike(blog);
 
   useEffect(() => {
@@ -42,6 +52,12 @@ function BlogDetail() {
             </Button>
             ,
           </Descriptions.Item>
+          <p>{blog.body}</p>
+          <div style={{ marginTop: "10px" }}>
+            {blog.tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </div>
         </Descriptions>
       )}
     </ProtectedRoute>

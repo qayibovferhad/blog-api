@@ -13,6 +13,6 @@ export function useBlogLike(blog) {
     );
     await axios.put(`/blogs/${blogId}/like`);
   }
-  const isBlogLiked = blog.likes.includes(currentUser._id);
+  const isBlogLiked = blog.likes.includes(currentUser?._id);
   return [isBlogLiked, handleLikeClick];
 }
