@@ -3,7 +3,6 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
-import { Suspense } from "react";
 import AppLayout from "./components/AppLayout";
 import Blogs from "./pages/Blogs";
 import BlogCreate from "./pages/BlogCreate";

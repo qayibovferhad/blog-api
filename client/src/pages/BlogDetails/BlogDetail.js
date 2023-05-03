@@ -1,9 +1,8 @@
 import { Button, Descriptions, Tag } from "antd";
-import { LikeOutlined, MessageOutlined, LikeTwoTone } from "@ant-design/icons";
-
+import { LikeOutlined, LikeTwoTone } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { timeAgo } from "../../lib/timeAgo";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import axios from "../../lib/axios";
 import { useBlogLike } from "../../hooks/useBlogLike";
