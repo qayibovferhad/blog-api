@@ -5,7 +5,7 @@ import ProtectedRoute from "../../components/ProtectedRoute";
 function Chat() {
   return (
     <ProtectedRoute>
-      <h1>Hello to Chat</h1>
+      <h1>Chat</h1>
     </ProtectedRoute>
   );
 }
