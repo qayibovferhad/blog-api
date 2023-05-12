@@ -31,7 +31,15 @@ const getBlogs = catchError(async (req, res) => {
   const offset = (page - 1) * limit;
   const titleFilter = { $regex: ".*" + q + ".*", $options: "i" };
   const blogs = await Blog.find({ title: titleFilter })
-    .select("_id title body tags likes comments createdAt")
+    .select({
+      _id: 0,
+      title: 1,
+      body: 1,
+      tags: 1,
+      likes: 1,
+      comments: 1,
+      createdAt: 1,
+    })
     .populate("author", "-password")
     .sort({ createdAt: "desc" })
     .skip(offset)
