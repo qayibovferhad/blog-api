@@ -36,7 +36,7 @@ function BlogItem({ item }) {
     >
       <List.Item.Meta
         avatar={<Avatar src={"http://localhost:1905/" + item.author.image} />}
-        description={item.author.firstname + " " + item.author.lastname}
+        description={item.author.fullName}
         title={<Link to={`/blogs/${item._id}`}>{item.title}</Link>}
       />
       {item.body.substring(0, 300)}..

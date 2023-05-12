@@ -1,23 +1,70 @@
 const Blog = require("../models/blog");
 const catchError = require("../utils/catchError");
-
+const blogAggregations = (offset, limit, userId) => {
+  return [
+    {
+      $project: {
+        _id: 0,
+        id: "$_id",
+        title: 1,
+        body: 1,
+        author: 1,
+        tags: 1,
+        liked: {
+          $in: [mongoose.Types.ObjectId(userId), "$likes"],
+        },
+        likes: { $size: "$likes" },
+        comments: { $size: "$comments" },
+        createdAt: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "author",
+        foreignField: "_id",
+        as: "author",
+      },
+    },
+    { $unwind: "$author" },
+    {
+      $project: {
+        id: 1,
+        title: 1,
+        body: 1,
+        tags: 1,
+        likes: 1,
+        comments: 1,
+        liked: 1,
+        createdAt: 1,
+        "author.fullName": {
+          $concat: ["$author.firstName", " ", "$author.lastName"],
+        },
+        "author.image": 1,
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    { $skip: offset },
+    { $limit: limit },
+  ];
+};
 const getMyBlogs = catchError(async (req, res) => {
   const { limit = 10, page = 1, q = "" } = req.query;
   const offset = (page - 1) * limit;
   const userId = req.user._id;
-  const blogs = await Blog.find({
-    title: { $regex: ".*" + q + ".*", $options: "i" },
-  })
-    .select("_id title body tags likes comments createdAt")
-    .where("author")
-    .equals(userId)
-    .populate("author", "_id firstname lastname image")
-    .sort({ createdAt: "desc" })
-    .skip(offset)
-    .limit(limit)
-    .exec();
+  const blogs = await Blog.aggregate([
+    {
+      $match: {
+        $and: [
+          { title: titleFilter },
+          { author: mongoose.Types.ObjectId(userId) },
+        ],
+      },
+    },
+    ...blogAggregations(offset, limit, userId),
+  ]).exec();
   const total = await Blog.find({
-    title: { $regex: ".*" + q + ".*", $options: "i" },
+    title: titleFilter,
   })
     .where("author")
     .equals(userId)
@@ -30,17 +77,20 @@ const getMyBlogs = catchError(async (req, res) => {
 const getBlogs = catchError(async (req, res) => {
   const { limit = 10, page = 1, q = "" } = req.query;
   const offset = (page - 1) * limit;
-  const blogs = await Blog.find({
-    title: { $regex: ".*" + q + ".*", $options: "i" },
-  })
-    .select("_id title body tags likes comments createdAt")
-    .populate("author", "_id firstname lastname image")
-    .sort({ createdAt: "desc" })
-    .skip(offset)
-    .limit(limit)
-    .exec();
+  const titleFilter = { $regex: ".*" + q + ".*", $options: "i" };
+  const blogs = await Blog.aggregate([
+    {
+      $match: {
+        $and: [
+          { title: titleFilter },
+          { author: mongoose.Types.ObjectId(userId) },
+        ],
+      },
+    },
+    ...blogAggregations(offset, limit, userId),
+  ]).exec();
   const total = await Blog.find({
-    title: { $regex: ".*" + q + ".*", $options: "i" },
+    title: titleFilter,
   }).count();
   res.status(200).send({
     list: blogs,
