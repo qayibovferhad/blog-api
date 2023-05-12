@@ -10,8 +10,8 @@ import Input from "antd/es/input/Input";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { Link, useSearchParams } from "react-router-dom";
 
-const LIMIT = 4;
 function Blogs() {
+  const LIMIT = 4;
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [q, setQ] = useState("");
