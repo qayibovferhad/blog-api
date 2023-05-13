@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const catchError = require("../utils/catchError");
 const { path } = require("../app");
+const passport = require("passport");
 const SALT = process.env.PASSWORD_SALT;
 
 const registerUser = catchError(async (req, res) => {
@@ -28,29 +29,22 @@ const logout = (req, res) => {
 const getUserInfo = (req, res) => {
   res.status(200).send(req.user);
 };
-const loginUser = catchError(async (req, res) => {
-  const { email, password } = req.body;
-  const hashedPassword = crypto
-    .pbkdf2Sync(password, SALT, 100000, 64, "sha512")
-    .toString("hex");
-  const user = await User.findOne({ email, password: hashedPassword })
-    .select("_id firstname lastname username email image")
-    .exec();
-  if (user) {
-    const accessToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
-      expiresIn: "12h",
-    });
-    res.cookie("app_access_token", accessToken, {
-      maxAge: 60 * 60 * 12 * 1000,
-      httpOnly: true,
-    });
+const loginUser = catchError(async (req, res, next) => {
+  passport.authenticate("local", { session: false }, (error, user) => {
+    if (error) {
+      res.status(400).send(error);
+    }
+    if (user) {
+      const accessToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
+        expiresIn: "12h",
+      });
+      res.cookie("app_access_token", accessToken, {
+        maxAge: 60 * 60 * 12 * 1000,
+        httpOnly: true,
+      });
+    }
     res.status(200).send();
-  } else {
-    res.status(401).send({
-      message: "Username or password is not correct",
-    });
-  }
-  res.send();
+  })(req, res, next);
 });
 
 const resetRequest = async (req, res) => {

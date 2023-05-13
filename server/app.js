@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const passport = require("passport");
 const mongoose = require("mongoose");
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -39,6 +40,8 @@ app.use(
 app.use(xss());
 app.use("/public", express.static(path.resolve("public")));
 app.use(limiter);
+app.use(passport.initialize());
+require("./utils/passport");
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", blogRoutes);
 app.all("*", notFound);
