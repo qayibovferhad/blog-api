@@ -11,7 +11,7 @@ function LoginForm() {
       await axios.post("login", values);
       navigate("/");
     } catch (err) {
-      const errorMessage = err.response.data.message;
+      const errorMessage = "Username or Password is not correct!";
       message.error(errorMessage);
     } finally {
       setSubmitting(false);

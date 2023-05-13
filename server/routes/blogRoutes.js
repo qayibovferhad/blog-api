@@ -2,8 +2,9 @@ const express = require("express");
 const authMiddleware = require("../middleware/auth");
 const blogRouter = express.Router();
 const blogController = require("../controllers/blog");
+const passport = require("passport");
 
-blogRouter.use(authMiddleware);
+blogRouter.use(passport.authenticate("jwt", { session: false }));
 blogRouter.get("/blogs", blogController.getBlogs);
 blogRouter.get("/blogs/my", blogController.getMyBlogs);
 blogRouter.get("/blogs/:id", blogController.getBlogSingle);

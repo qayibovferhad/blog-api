@@ -29,22 +29,27 @@ const logout = (req, res) => {
 const getUserInfo = (req, res) => {
   res.status(200).send(req.user);
 };
-const loginUser = catchError(async (req, res, next) => {
+const loginUser = catchError(async (req, res) => {
   passport.authenticate("local", { session: false }, (error, user) => {
     if (error) {
-      res.status(400).send(error);
+      return res.status(400).json({ error });
     }
-    if (user) {
-      const accessToken = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
+
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        return res.status(500).send({ message: error });
+      }
+
+      const accessToken = jwt.sign(user, process.env.JWT_SECRET, {
         expiresIn: "12h",
       });
       res.cookie("app_access_token", accessToken, {
         maxAge: 60 * 60 * 12 * 1000,
         httpOnly: true,
       });
-    }
-    res.status(200).send();
-  })(req, res, next);
+      res.status(200).send("succes");
+    });
+  })(req, res);
 });
 
 const resetRequest = async (req, res) => {
