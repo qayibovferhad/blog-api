@@ -7,6 +7,7 @@ import AppLayout from "./components/AppLayout";
 import Blogs from "./pages/Blogs";
 import BlogCreate from "./pages/BlogCreate";
 import BlogDetails from "./pages/BlogDetails";
+import ForgotPassword from "./pages/ForgotPassword";
 function App() {
   return (
     <>
@@ -14,7 +15,7 @@ function App() {
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="/auth/registration" element={<Registration />} />
         <Route path="/auth/login" element={<Login />} />
-
+        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/" element={<AppLayout />}>
           <Route path="chat" element={<Chat />} />
           <Route path="dashboard" element={<Dashboard />} />

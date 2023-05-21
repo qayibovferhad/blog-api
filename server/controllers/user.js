@@ -57,7 +57,7 @@ const resetRequest = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) {
     res.status(400).send({
-      message: "User not found",
+      message: "User not found with this email address!",
     });
     return;
   }
@@ -77,7 +77,7 @@ const resetRequest = async (req, res) => {
     },
   });
   const linkToPasswordResetPage =
-    "http://localhost:1905/reset-password/" + resetToken;
+    "http://localhost:3000/auth/reset-password/" + resetToken;
 
   await transporter.sendMail({
     from: "BLOGS API <noreply@blogs.info>",
