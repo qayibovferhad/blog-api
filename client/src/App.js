@@ -3,11 +3,13 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
+import ResetPassword from "./pages/ResetPassword";
 import AppLayout from "./components/AppLayout";
 import Blogs from "./pages/Blogs";
+import ForgotPassword from "./pages/ForgotPassword";
 import BlogCreate from "./pages/BlogCreate";
 import BlogDetails from "./pages/BlogDetails";
-import ForgotPassword from "./pages/ForgotPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <>
@@ -16,6 +18,11 @@ function App() {
         <Route path="/auth/registration" element={<Registration />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/auth/reset-password/:resetToken"
+          element={<ResetPassword />}
+        />
+
         <Route path="/" element={<AppLayout />}>
           <Route path="chat" element={<Chat />} />
           <Route path="dashboard" element={<Dashboard />} />

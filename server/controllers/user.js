@@ -108,7 +108,7 @@ const patchPassword = async (req, res) => {
       message: "password has been reset",
     });
   } else {
-    res.send({
+    res.status(400).send({
       message: "password reset request doest not exist",
     });
   }

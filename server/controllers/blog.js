@@ -32,7 +32,7 @@ const getBlogs = catchError(async (req, res) => {
   const titleFilter = { $regex: ".*" + q + ".*", $options: "i" };
   const blogs = await Blog.find({ title: titleFilter })
     .select({
-      _id: 0,
+      _id: 1,
       title: 1,
       body: 1,
       tags: 1,

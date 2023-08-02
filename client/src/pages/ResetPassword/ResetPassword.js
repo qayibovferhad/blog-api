@@ -1,18 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
-import { message, Button, Form, Typography } from "antd";
-import Input from "antd/es/input/Input";
+import { message, Button, Form, Typography, Input } from "antd";
 import { useState } from "react";
 import axios from "../../lib/axios";
-function ForgotPassword() {
+function ResetPassword() {
   const [submitting, setSubmitting] = useState(false);
+  const { resetToken } = useParams();
+  const navigate = useNavigate();
   async function onFinish(values) {
     try {
       setSubmitting(true);
-      const data = await axios.post("password/reset-request", values);
-
+      const data = await axios.patch("password", {
+        newPassword: values.password,
+        resetToken,
+      });
       message.success(data.data.message);
+      navigate("/auth/login");
     } catch (error) {
       const errorMessage = error.response.data.message;
       message.error(errorMessage);
@@ -26,7 +30,7 @@ function ForgotPassword() {
       <div className="password-form-container">
         <Typography.Title>Reset Password</Typography.Title>
         <Typography.Paragraph>
-          Please enter your email address for reset password
+          Please confirm your new password!
         </Typography.Paragraph>
         <Form
           name="basic"
@@ -36,13 +40,21 @@ function ForgotPassword() {
           autoComplete="off"
         >
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please enter your email!" }]}
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input type="email" />
+            <Input.Password />
           </Form.Item>
-
+          <Form.Item
+            label="Password"
+            name="confirmPassword"
+            rules={[
+              { required: true, message: "Please confirm your password!" },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
           <Form.Item>
             <Button loading={submitting} block type="primary" htmlType="submit">
               Sign In
@@ -60,4 +72,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;

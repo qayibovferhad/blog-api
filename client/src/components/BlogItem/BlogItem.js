@@ -12,6 +12,7 @@ const IconText = ({ icon, text }) => (
 );
 
 function BlogItem({ item }) {
+  console.log(item);
   const [isBlogLiked, handleLikeClick] = useBlogLike(item);
   return (
     <List.Item
