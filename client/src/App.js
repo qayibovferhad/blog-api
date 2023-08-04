@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import BlogCreate from "./pages/BlogCreate";
 import BlogDetails from "./pages/BlogDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Inbox from "./pages/Inbox";
 function App() {
   return (
     <>
@@ -24,7 +25,9 @@ function App() {
         />
 
         <Route path="/" element={<AppLayout />}>
-          <Route path="chat" element={<Chat />} />
+          <Route path="chat" element={<Chat />}>
+            <Route path=":userId" element={<Inbox />} />
+          </Route>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="blogs" element={<Blogs />} />
           <Route path="blogs/create" element={<BlogCreate />} />

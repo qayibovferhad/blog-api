@@ -8,6 +8,15 @@ const { path } = require("../app");
 const passport = require("passport");
 const SALT = process.env.PASSWORD_SALT;
 
+const getUsers = catchError(async (req, res) => {
+  console.log("user", req.user);
+  const users = await User.find({ _id: { $ne: req.user._id } });
+  const total = await User.count({ _id: { $ne: req.user._id } });
+  res.send({
+    users,
+    total,
+  });
+});
 const registerUser = catchError(async (req, res) => {
   const { path } = req.file;
   const { firstname, lastname, username, email, password } = req.body;
@@ -120,4 +129,5 @@ module.exports = {
   resetRequest,
   getUserInfo,
   logout,
+  getUsers,
 };
