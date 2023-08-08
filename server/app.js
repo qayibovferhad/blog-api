@@ -44,7 +44,10 @@ app.use(passport.initialize());
 require("./utils/passport");
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", blogRoutes);
-app.all("*", notFound);
+app.use(express.static(path.join(__dirname, "../client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 app.use(errorMiddleware);
 
 module.exports = app;

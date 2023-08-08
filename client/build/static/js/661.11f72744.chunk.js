@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[661],{3661:function(e,n,t){t.r(n);t(2791);var u=t(7689),c=t(184);n.default=function(){var e=(0,u.UO)().userId;return(0,c.jsxs)("h1",{children:["Say hello to ",e]})}}}]);
+//# sourceMappingURL=661.11f72744.chunk.js.map

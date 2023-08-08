@@ -6,7 +6,9 @@
   "scripts": {
     "server": "npm run start --prefix server",
     "client": "npm run start --prefix client",
-    "start": "npm-run-all --parallel server client"
+    "start": "npm-run-all --parallel server client",
+    "build-client": "npm run build --prefix client",
+    "build": "npm run build-client && npm run server"
   },
   "repository": {
     "type": "git",
